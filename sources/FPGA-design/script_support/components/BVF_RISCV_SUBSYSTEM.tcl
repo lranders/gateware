@@ -175,6 +175,70 @@ sd_connect_pins -sd_name ${sd_name} -pin_names {"FIC_3_PCLK" "IHC_SUBSYSTEM_0:pc
 
 
 
+# Add SPI_0_CLK_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_0_CLK_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_CLK_OE_M2F SPI_0_CLK_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_CLK_F2M SPI_0_CLK_BIBUF:Y}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_CLK_M2F SPI_0_CLK_BIBUF:D}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_0_CLK_BIBUF:PAD} -port_name {SPI_0_CLK} 
+
+
+# Add SPI_0_DI_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_0_DI_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_DI_F2M SPI_0_DI_BIBUF:Y}
+sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {SPI_0_DI_BIBUF:D} -value {GND}
+sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {SPI_0_DI_BIBUF:E} -value {GND}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_0_DI_BIBUF:PAD} -port_name {SPI_0_DI} 
+
+
+# Add SPI_0_DO_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_0_DO_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_DO_OE_M2F SPI_0_DO_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_DO_M2F SPI_0_DO_BIBUF:D}
+sd_mark_pins_unused -sd_name ${sd_name} -pin_names {SPI_0_DO_BIBUF:Y}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_0_DO_BIBUF:PAD} -port_name {SPI_0_DO} 
+
+
+# Add SPI_0_SS1_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_0_SS1_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_SS1_OE_M2F SPI_0_SS1_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_SS_F2M SPI_0_SS1_BIBUF:Y}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_SS1_M2F SPI_0_SS1_BIBUF:D}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_0_SS1_BIBUF:PAD} -port_name {SPI_0_SS1} 
+
+
+# Add SPI_1_CLK_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_1_CLK_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_CLK_OE_M2F SPI_1_CLK_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_CLK_F2M SPI_1_CLK_BIBUF:Y}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_CLK_M2F SPI_1_CLK_BIBUF:D}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_1_CLK_BIBUF:PAD} -port_name {SPI_1_CLK} 
+
+
+# Add SPI_1_DI_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_1_DI_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_DI_F2M SPI_1_DI_BIBUF:Y}
+sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {SPI_1_DI_BIBUF:D} -value {GND}
+sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {SPI_1_DI_BIBUF:E} -value {GND}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_1_DI_BIBUF:PAD} -port_name {SPI_1_DI} 
+
+
+# Add SPI_1_DO_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_1_DO_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_DO_OE_M2F SPI_1_DO_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_DO_M2F SPI_1_DO_BIBUF:D}
+sd_mark_pins_unused -sd_name ${sd_name} -pin_names {SPI_1_DO_BIBUF:Y}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_1_DO_BIBUF:PAD} -port_name {SPI_1_DO} 
+
+
+# Add SPI_1_SS1_BIBUF instance
+sd_instantiate_macro -sd_name ${sd_name} -macro_name {BIBUF} -instance_name {SPI_1_SS1_BIBUF}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_SS1_OE_M2F SPI_1_SS1_BIBUF:E}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_SS_F2M SPI_1_SS1_BIBUF:Y}
+sd_connect_pins -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_SS1_M2F SPI_1_SS1_BIBUF:D}
+sd_connect_pin_to_port -sd_name ${sd_name} -pin_name {SPI_1_SS1_BIBUF:PAD} -port_name {SPI_1_SS1} 
+
+
 # Add scalar net connections
 sd_connect_pins -sd_name ${sd_name} -pin_names {"CK" "PF_SOC_MSS:CK" }
 sd_connect_pins -sd_name ${sd_name} -pin_names {"CK_N" "PF_SOC_MSS:CK_N" }
@@ -587,42 +651,6 @@ sd_connect_pins -sd_name ${sd_name} -pin_names {"CAN_1_RXBUS" "PF_SOC_MSS:CAN_1_
 
 
 
-
-#-------------------------------------------------------------------------------
-# Additional cape peripherals WIP.
-#-------------------------------------------------------------------------------
-
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_SS1_OE_M2F} 
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_CLK_OE_M2F} 
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_DO_OE_M2F} 
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_CLK_M2F} 
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_DO_M2F} 
-sd_mark_pins_unused -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_SS1_M2F} 
-sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_SS_F2M} -value {GND} 
-sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_CLK_F2M} -value {GND} 
-sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_0_SS_F2M} -value {GND} 
-sd_connect_pins_to_constant -sd_name ${sd_name} -pin_names {PF_SOC_MSS:SPI_1_CLK_F2M} -value {GND} 
-
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_0_DI_F2M} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_1_DI_F2M} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_0_CLK_M2F} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_0_DO_M2F} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_0_SS1_M2F} -port_name {} 
-
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_0_DI_F2M} -new_port_name {SPI_0_DI} 
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_1_DI_F2M} -new_port_name {SPI_1_DI} 
-
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_0_CLK_M2F} -new_port_name {SPI_0_CLK} 
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_0_DO_M2F} -new_port_name {SPI_0_DO} 
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_0_SS1_M2F} -new_port_name {SPI_0_SS1}
-
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_1_SS1_M2F} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_1_CLK_M2F} -port_name {} 
-sd_connect_pin_to_port -sd_name {BVF_RISCV_SUBSYSTEM} -pin_name {PF_SOC_MSS:SPI_1_DO_M2F} -port_name {} 
-
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_1_SS1_M2F} -new_port_name {SPI_1_SS1} 
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_1_DO_M2F} -new_port_name {SPI_1_DO} 
-sd_rename_port -sd_name {BVF_RISCV_SUBSYSTEM} -current_port_name {SPI_1_CLK_M2F} -new_port_name {SPI_1_CLK} 
 
 #-------------------------------------------------------------------------------
 # Temporary connections to allow running through complete flow.
