@@ -758,7 +758,8 @@ def get_top_level_name():
 
 # Calls Libero and runs a script
 def call_libero(libero, script, script_args, project_location, hss_image_location, prog_export_path, top_level_name, design_version):
-    libero_cmd = libero + " SCRIPT:" + script + " \"SCRIPT_ARGS: " + script_args + " PROJECT_LOCATION:" + project_location + " TOP_LEVEL_NAME:" + top_level_name + " HSS_IMAGE_PATH:" + hss_image_location + " PROG_EXPORT_PATH:" + prog_export_path + " DESIGN_VERSION:" + design_version + "\""
+    libero_cmd = "strace -o trace.txt " + libero + " SCRIPT:" + script + " \"SCRIPT_ARGS: " + script_args + " PROJECT_LOCATION:" + project_location + " TOP_LEVEL_NAME:" + top_level_name + " HSS_IMAGE_PATH:" + hss_image_location + " PROG_EXPORT_PATH:" + prog_export_path + " DESIGN_VERSION:" + design_version + "\""
+    print(libero_cmd)
     exe_sys_cmd(libero_cmd)
 
 
