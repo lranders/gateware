@@ -1,9 +1,11 @@
 if {[file isdirectory $local_dir/script_support/components/MSS]} {
-    file delete -force $local_dir/script_support/components/MSS
+    foreach file [glob -nocomplain -type f "$local_dir/script_support/components/MSS/*"] {
+        file delete -force $file
+    }
 }
-file mkdir $local_dir/script_support/components/MSS
 
-set cfg_file [glob -nocomplain $local_dir/../MSS_Configuration/$die/$package/$board/*.cfg]
+set mss_subdir [string tolower $mss_option]
+set cfg_file [glob -nocomplain $local_dir/../MSS_Configuration/$die/$package/$board/$mss_subdir/*.cfg]
 exec $mss_config_loc -GENERATE -CONFIGURATION_FILE:$cfg_file -OUTPUT_DIR:$local_dir/script_support/components/MSS
 
 set mss_component_file [glob -nocomplain $local_dir/script_support/components/MSS/*.cxz]
@@ -28,5 +30,8 @@ import_mss_component -file $mss_component_file
 ::safe_source script_support/components/IHC_APB.tcl
 ::safe_source script_support/components/IHC_SUBSYSTEM.tcl
 ::safe_source script_support/components/BVF_RISCV_SUBSYSTEM.tcl
+if {[file exists $local_dir/script_support/components/MSS/$mss_option/ADAPTER.tcl]} {
+    ::safe_source $local_dir/script_support/components/MSS/$mss_option/ADAPTER.tcl
+}
 ::safe_source script_support/components/BVF_GATEWARE.tcl 
 set_root -module ${top_level_name}::work

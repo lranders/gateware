@@ -8,7 +8,7 @@ import sys
 import yaml
 
 
-def gather_dtso(gateware_dir, work_dir, build_options):
+def gather_dtso(gateware_dir, work_dir, build_options, mss_variant):
     context_dir = os.path.join(gateware_dir, "script_support", "components")
     board_options_path = os.path.join(os.path.dirname(os.path.dirname(gateware_dir)), "board-options", "board-selection.yaml")
     print(f"Board options path: {board_options_path}")
@@ -49,7 +49,7 @@ def gather_dtso(gateware_dir, work_dir, build_options):
     package_selected = board_params.get('Package')
 
 
-    build_options_dict = {}
+    build_options_dict = {'MSS': mss_variant.upper()}
     if build_options != 'NONE':
         options = build_options.split()
         for option in options:
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     if os.path.exists(gateware_dir):
         if os.path.exists(work_dir):
-            gather_dtso(gateware_dir, work_dir, argumentList[2:])
+            gather_dtso(gateware_dir, work_dir, argumentList[2:], "default")
         else:
             print("Invalid bitstream builder work directory.")
     else:

@@ -81,6 +81,13 @@ if {[info exists TOP_LEVEL_NAME]} {
     set top_level_name BVF_GATEWARE
 }
 
+if {[info exists MSS]} {
+    set mss_option "$MSS"
+} else {
+    set mss_option "DEFAULT"
+}
+puts "MSS option selected: $mss_option"
+
 if {[info exists CAPE_OPTION]} {
     set cape_option "$CAPE_OPTION"
 } else {

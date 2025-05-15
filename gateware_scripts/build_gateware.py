@@ -308,14 +308,57 @@ def init_workspace():
 
 # clones the sources specified in the sources.yaml file
 def clone_sources(source_list):
+    global mss_variant
+
     print("================================================================================")
     print("                                 Clone sources")
     print("================================================================================\r\n", flush=True)
+
+    def do_patches(details):
+
+        def apply_patches(patches, number: int):
+            if patches is not None:
+                if isinstance(number, int) and (number > 0):
+                    print(f"Pass {number}:")
+                for patch in patches:
+                    patch_file = os.path.join(os.path.dirname(source_list), "..", "patches", source.lower(), patch)
+                    try:
+                        stat = repo.git.am(patch_file)
+                        print(f"- {stat}")
+                    except git.exc.GitCommandError as e:
+                        print(f"Error with Git operations for {source}: {e}")
+                        exit(e.status)
+
+        if "patches" in details:
+            patches = details["patches"]
+            if isinstance(patches, list):
+                print("Patching...")
+                apply_patches(patches, 0)
+            else:
+                if isinstance(patches, dict):
+                    if (details["patches"].get("common") or details["patches"].get(mss_variant)) is not None:
+                        print("Patching...")
+                        n = 1
+                        patches = details["patches"].get("common")
+                        if patches is not None:
+                            apply_patches(patches, n)
+                            n += 1
+                        patches = details["patches"].get(mss_variant)
+                        if patches is not None:
+                            if n == 1: n = 0
+                            apply_patches(patches, n)
 
     source_directories = {}
 
     with open(source_list) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
+
+        if data.get("gateware") is None:
+            mss_variant = "default"
+        else:
+            mss_variant = data["gateware"].get("mss-variant", "default")
+
+        print(f"MSS Variant: {mss_variant.upper()}\r\n")
 
         for source, details in data.items():
             if source == "gateware":
@@ -368,15 +411,7 @@ def clone_sources(source_list):
                                         print(f"Error resetting to branch {target_branch} for {source}: {e}")
                                         continue
 
-                                if "patches" in details:
-                                    for patch in details["patches"]:
-                                        patch_file = os.path.join(os.path.dirname(source_list), "..", "patches", source.lower(), patch)
-                                        try:
-                                            stat = repo.git.am(patch_file)
-                                            print(stat)
-                                        except git.exc.GitCommandError as e:
-                                            print(f"Error with Git operations for {source}: {e}")
-                                            exit(e.status)
+                                do_patches(details)
 
                                 source_directories[source] = source_dir
                                 continue
@@ -411,15 +446,7 @@ def clone_sources(source_list):
                             print(f"Error checking out commit {details['commit']} for {source}: {e}")
                             continue
 
-                    if "patches" in details:
-                        for patch in details["patches"]:
-                            patch_file = os.path.join(os.path.dirname(source_list), "..", "patches", source.lower(), patch)
-                            try:
-                                stat = repo.git.am(patch_file)
-                                print(stat)
-                            except git.exc.GitCommandError as e:
-                                print(f"Error with Git operations for {source}: {e}")
-                                exit(e.status)
+                    do_patches(details)
 
                     source_directories[source] = source_dir
                 except Exception as e:
@@ -780,6 +807,7 @@ def generate_libero_project(libero, yaml_input_file, fpga_design_sources_path, b
         script_args += " "
 
     script_args += (
+        f"MSS:{mss_variant.upper()} "
         f"BOARD:{board_selected} "
         f"DIE:{die_selected} "
         f"PACKAGE:{package_selected} "
@@ -835,8 +863,7 @@ def build_gateware(yaml_input_file_path, build_dir, gateware_top_dir, board_opti
                     check_shls_tool_status()
 
     generate_gateware_overlays(os.path.join(gateware_top_dir, "sources", "FPGA-design"),
-                               os.path.join(os.getcwd(), "bitstream", "LinuxProgramming"), build_options_list)
-    
+                               os.path.join(os.getcwd(), "bitstream", "LinuxProgramming"), build_options_list, mss_variant)
     board_selected = None
     die_selected = None
     package_selected = None
@@ -880,7 +907,7 @@ def build_gateware(yaml_input_file_path, build_dir, gateware_top_dir, board_opti
           package_selected, "--||--", "Die voltage: ", die_voltage, "--||--", "Part range: ", part_range, " --||")
     
     mss_folder_path = os.path.join(gateware_top_dir, "sources", "MSS_Configuration", 
-                                   die_selected, package_selected, board_selected)
+                                   die_selected, package_selected, board_selected, mss_variant)
     
     print(f"MSS folder path: {mss_folder_path}")
     cfg_files = glob.glob(os.path.join(mss_folder_path, "*.cfg"))
@@ -925,7 +952,7 @@ def main():
     sources = clone_sources(yaml_input_file)
 
     build_options_list = get_libero_script_args(yaml_input_file)
-    generate_gateware_overlays(os.path.join(os.getcwd(), "bitstream", "LinuxProgramming"), build_options_list)
+    generate_gateware_overlays(os.path.join(os.getcwd(), "bitstream", "LinuxProgramming"), build_options_list, "default")
 
     mss_config_file_path = os.path.join(".", "sources", "MSS_Configuration", "MSS_Configuration.cfg")
     work_mss_dir = os.path.join("work", "MSS")
