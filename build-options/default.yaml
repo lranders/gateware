@@ -5,10 +5,13 @@ HSS:
     branch: master
     commit: v2025.03
     patches:
-        - 0001-Disable-annoying-debug-message.patch
-        - 0002-Bring-back-old-DESIGNVER-formatting.patch
+        common:
+            - 0001-Disable-annoying-debug-message.patch
+            - 0002-Bring-back-old-DESIGNVER-formatting.patch
+        default:
+            - 0003-Change-IOMUX-on-pad-30-32-and-33.patch
     make_clean: 0
 gateware:
     type: sources
-    unique-design-version: 2.0.4
+    unique-design-version: 2.0.1
 
